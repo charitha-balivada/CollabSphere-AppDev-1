@@ -1,0 +1,69 @@
+{% extends 'sponsor_layout.html' %}
+
+{% block title %}
+    Ad Requests and Interested Influencers
+{% endblock %}
+
+{% block styles %}
+<style>
+    .container {
+        margin-top: 20px;
+    }
+    .ad-request-card, .interested-influencer-card {
+        border: 1px solid #ddd;
+        padding: 15px;
+        border-radius: 5px;
+        margin-bottom: 20px;
+        background-color: #fff;
+    }
+    .ad-request-card h2, .interested-influencer-card h2 {
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+    }
+    .ad-request-card p, .interested-influencer-card p {
+        margin: 0;
+    }
+    .ad-request-card .btn, .interested-influencer-card .btn {
+        margin-right: 10px;
+        margin-top: 10px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="display-4 text-center">Ad Requests</h1>
+
+    <h2>Ad Requests</h2>
+    <div id="ad-requests-list">
+        {% for ad_request in ad_requests %}
+        <div class="ad-request-card">
+            <h2>Campaign: {{ ad_request.campaign.name }}</h2>
+            <p>Influencer: {{ ad_request.influencer.name }}</p>
+            <p>Messages: {{ ad_request.messages }}</p>
+            <p>Requirements: {{ ad_request.requirements }}</p>
+            <p>Initial Payment Amount: &#x20B9;{{ ad_request.payment_amount }}</p>
+            <p>Status: {{ ad_request.status }}</p>
+            <a href="{{ url_for('sponsor_edit_ad_request', ad_request_id=ad_request.id) }}" class="btn btn-warning">Edit</a>
+            <form action="{{ url_for('sponsor_delete_ad_request', ad_request_id=ad_request.id) }}" method="POST" style="display:inline;">
+                <button type="submit" class="btn btn-danger">Delete</button>
+            </form>
+        </div>
+        {% endfor %}
+    </div>
+
+    <h2>Interested Influencers</h2>
+    <div id="interested-influencers-list">
+        {% for influencer, campaign in interested_influencers %}
+        <div class="interested-influencer-card">
+            <h2>{{ influencer.name }}</h2>
+            <p>Category: {{ influencer.category }}</p>
+            <p>Reach: {{ influencer.reach }}</p>
+            <p>Platform: {{ influencer.social_media_platform }}</p>
+            <a href="{{ influencer.social_media_profile }}" class="btn btn-success btn-request-ad">Profile Link</a>
+            <a href="{{ url_for('adrequests', influencer_id=influencer.id) }}" class="btn btn-primary btn-request-ad">Request Ad</a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,92 @@
+{% extends 'sponsor_layout.html' %}
+
+{% block title %}
+    Sponsor Home
+{% endblock %}
+
+{% block styles %}
+<style>
+    .container {
+        margin-top: 20px;
+    }
+    .filter {
+        margin-bottom: 20px;
+    }
+    .profile-card, .campaign-card {
+        border: 1px solid #ddd;
+        padding: 15px;
+        border-radius: 5px;
+        margin-bottom: 20px;
+    }
+    .profile-card h2, .campaign-card h2 {
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+    }
+    .campaign-card p, .profile-card p {
+        margin: 0;
+    }
+    .profile-card {
+        background-color: #f9f9f9;
+    }
+    .campaign-card {
+        background-color: #fff;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="display-4 text-center">Welcome @{{sponsor.username}}</h1>
+    <div class="filter">
+        <label for="category">Filter influencers by Category:</label>
+        <select id="category" class="form-control" onchange="filterProfiles()">
+            <option value="">All</option>
+            {% for category in categories %}
+                <option value="{{ category }}">{{ category }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <h2>Influencers</h2>
+    <div id="influencers-list">
+        {% for influencer in influencers %}
+        <div class="profile-card" data-category="{{ influencer.category }}">
+            <h2>{{ influencer.name }}</h2>
+            <p>Category: {{ influencer.category }}</p>
+            <p>Reach: {{ influencer.reach }}</p>
+            <p>Platform: {{ influencer.social_media_platform }}</p>
+            <a href="{{ influencer.social_media_profile }}" class="btn btn-success btn-request-ad">Profile Link</a>
+            <a href="{{ url_for('adrequests', influencer_id=influencer.id) }}" class="btn btn-primary btn-request-ad">Request Ad</a>
+        </div>
+        {% endfor %}
+    </div>
+    <h2>Ongoing Campaigns</h2>
+    <div id="campaigns-list">
+        {% for campaign in campaigns %}
+        <div class="campaign-card">
+            <h2>{{ campaign.name }}</h2>
+            <p>Description: {{ campaign.description }}</p>
+            <p>Start Date: {{ campaign.start_date }}</p>
+            <p>End Date: {{ campaign.end_date }}</p>
+            <p>Budget: ${{ campaign.budget }}</p>
+            <p>Category: {{ campaign.category }}</p>
+            <p>Goals: {{ campaign.goals }}</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<script>
+    function filterProfiles() {
+        const category = document.getElementById('category').value;
+        const profiles = document.querySelectorAll('.profile-card');
+        
+        profiles.forEach(profile => {
+            if (category === "" || profile.getAttribute('data-category') === category) {
+                profile.style.display = 'block';
+            } else {
+                profile.style.display = 'none';
+            }
+        });
+    }
+</script>
+{% endblock %}

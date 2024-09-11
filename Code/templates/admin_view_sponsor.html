@@ -1,0 +1,46 @@
+{% extends 'admin_layout.html' %}
+
+{% block title %}
+    Sponsor Details
+{% endblock %}
+
+{% block styles %}
+<style>
+    .container {
+        margin-top: 20px;
+    }
+    .card {
+        border: 1px solid #ddd;
+        padding: 20px;
+        border-radius: 10px;
+        background-color: #f9f9f9;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    .card h1 {
+        font-size: 1.5rem;
+        margin-bottom: 15px;
+        color: #333;
+    }
+    .card p {
+        margin: 5px 0;
+        color: #666;
+    }
+    .card strong {
+        color: #333;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="card">
+        <h1>{{ sponsor.username }}'s Profile</h1>
+        <p><strong>Company Name:</strong> {{ sponsor.name }}</p>
+        <p><strong>Email:</strong> {{ sponsor.email }}</p>
+        <p><strong>Industry:</strong> {{ sponsor.industry }}</p>
+        <p><strong>Niche:</strong> {{ sponsor.niche }}</p>
+        <p><strong>Phone:</strong> {{ sponsor.phone }}</p>
+        <p><strong>E-mail:</strong> {{ sponsor.email }}</p>
+    </div>
+</div>
+{% endblock %}

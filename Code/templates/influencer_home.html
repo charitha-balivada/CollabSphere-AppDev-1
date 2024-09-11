@@ -1,0 +1,136 @@
+{% extends 'influencer_layout.html' %}
+
+{% block title %}
+    Influencer Home
+{% endblock %}
+
+{% block styles %}
+<style>
+    .container {
+        margin-top: 20px;
+    }
+    .filter {
+        margin-bottom: 20px;
+    }
+    .campaign-card, .profile-card {
+        border: 1px solid #ddd;
+        padding: 15px;
+        border-radius: 5px;
+        margin-bottom: 20px;
+        background-color: #fff;
+    }
+    .campaign-card h2, .profile-card h2 {
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+    }
+    .campaign-card p, .profile-card p {
+        margin: 0;
+    }
+    .btn-container {
+        margin-top: 10px;
+    }
+    .btn-interested, .btn-not-interested, .btn-profile {
+        display: inline-block;
+        padding: 10px 20px;
+        font-size: 14px;
+        font-weight: bold;
+        text-align: center;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+    }
+    .btn-interested {
+        background-color: #007bff;
+        color: #fff;
+        border: 1px solid #007bff;
+    }
+    .btn-interested:hover {
+        background-color: #0056b3;
+        border-color: #0056b3;
+    }
+    .btn-not-interested {
+        background-color: #dc3545;
+        color: #fff;
+        border: 1px solid #dc3545;
+    }
+    .btn-not-interested:hover {
+        background-color: #c82333;
+        border-color: #bd2130;
+    }
+    .btn-profile {
+        background-color: #28a745;
+        color: #fff;
+        border: 1px solid #28a745;
+    }
+    .btn-profile:hover {
+        background-color: #218838;
+        border-color: #1e7e34;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="display-4 text-center">Welcome @{{influencer.username}}</h1>
+    <div class="filter">
+        <label for="category">Filter campaigns by Category:</label>
+        <select id="category" class="form-control" onchange="filterCampaigns()">
+            <option value="">All</option>
+            {% for category in categories %}
+                <option value="{{ category }}">{{ category }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <h2>Public Ongoing Campaigns</h2>
+    <div id="campaigns-list">
+        {% for campaign in campaigns %}
+        <div class="campaign-card" data-category="{{ campaign.category }}">
+            <h2>{{ campaign.name }}</h2>
+            <p>Description: {{ campaign.description }}</p>
+            <p>Start Date: {{ campaign.start_date }}</p>
+            <p>End Date: {{ campaign.end_date }}</p>
+            <p>Budget: &#x20B9; {{ campaign.budget }}</p>
+            <p>Category: {{ campaign.category }}</p>
+            <p>Goals: {{ campaign.goals }}</p>
+            <div class="btn-container">
+                <form action="{{ url_for('mark_interest', campaign_id=campaign.id) }}" method="POST" style="display:inline;">
+                    <button type="submit" class="btn-interested">Interested</button>
+                </form>
+                <form action="{{ url_for('mark_disinterest', campaign_id=campaign.id) }}" method="POST" style="display:inline;">
+                    <button type="submit" class="btn-not-interested">Not Interested</button>
+                </form>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Other Influencer Profiles Section -->
+    <h2>Other Influencers</h2>
+    <div id="other-influencers-list">
+        {% for other_influencer in other_influencers %}
+        <div class="profile-card">
+            <h2>{{ other_influencer.name }}</h2>
+            <p>Category: {{ other_influencer.category }}</p>
+            <p>Reach: {{ other_influencer.reach }}</p>
+            <p>Platform: {{ other_influencer.social_media_platform }}</p>
+            <a href="{{ other_influencer.social_media_profile }}" class="btn-profile">Profile Link</a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<script>
+    function filterCampaigns() {
+        const category = document.getElementById('category').value;
+        const campaigns = document.querySelectorAll('.campaign-card');
+        
+        campaigns.forEach(campaign => {
+            if (category === "" || campaign.getAttribute('data-category') === category) {
+                campaign.style.display = 'block';
+            } else {
+                campaign.style.display = 'none';
+            }
+        });
+    }
+</script>
+{% endblock %}

@@ -1,0 +1,77 @@
+{% extends 'admin_layout.html' %}
+
+{% block title %}
+    Admin Statistics
+{% endblock %}
+
+{% block styles %}
+<style>
+    .container {
+        margin-top: 20px;
+    }
+    .card {
+        border: 1px solid #ddd;
+        padding: 15px;
+        border-radius: 5px;
+        margin-bottom: 20px;
+        background-color: #f9f9f9;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    .card h3 {
+        margin: 0 10px 0 0;
+        font-size: 1.25rem;
+    }
+    .card p {
+        margin: 0 10px 0 0;
+        color: #666;
+    }
+    .chart-container {
+        margin-top: 20px;
+        text-align: center;
+    }
+    .chart-container img {
+        max-width: 100%;
+        height: auto;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="display-4 text-center">Admin Stats</h1>
+    
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                <h3>Total Influencers</h3>
+                <p>{{ num_influencers }}</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <h3>Total Sponsors</h3>
+                <p>{{ num_sponsors }}</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <h3>Total Campaigns</h3>
+                <p>{{ num_campaigns }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="chart-container">
+        <h3>Sponsors by Industry</h3>
+        <img src="{{ sponsor_chart }}" alt="Sponsors by Industry">
+    </div>
+    <div class="chart-container">
+        <h3>Influencers by Category</h3>
+        <img src="{{ influencer_chart }}" alt="Influencers by Category">
+    </div>
+    <div class="chart-container">
+        <h3>Campaigns by Category</h3>
+        <img src="{{ campaign_chart }}" alt="Campaigns by Category">
+    </div>
+</div>
+{% endblock %}

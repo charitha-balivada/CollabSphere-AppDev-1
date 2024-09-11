@@ -1,0 +1,54 @@
+{% extends 'admin_layout.html' %}
+
+{% block title %}
+    Influencer Details
+{% endblock %}
+
+{% block styles %}
+<style>
+    .container {
+        margin-top: 20px;
+    }
+    .card {
+        border: 1px solid #ddd;
+        padding: 20px;
+        border-radius: 10px;
+        background-color: #f9f9f9;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    .card h1 {
+        font-size: 1.5rem;
+        margin-bottom: 15px;
+        color: #333;
+    }
+    .card p {
+        margin: 5px 0;
+        color: black;
+    }
+    .card strong {
+        color: #333;
+    }
+    .card a{
+        color:black;
+        text-decoration: underline;
+    }
+    
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="card">
+        <h1>{{ influencer.username }}'s Profile</h1>
+        <p><strong>Social Media Platform:</strong> {{ influencer.social_media_platform }}</p>
+        <p><strong>Social Media Profile:</strong> 
+            <a href="{{ influencer.social_media_profile }}" target="_blank">{{ influencer.social_media_profile }}</a>
+        </p>
+        <p><strong>Reach:</strong> {{ influencer.reach }}</p>
+        <p><strong>Category:</strong> {{ influencer.category }}</p>
+        <p><strong>Phone:</strong> {{ influencer.phone }}</p>
+        <p><strong>E-mail:</strong> {{ influencer.email }}</p>
+
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,59 @@
+{% extends 'influencer_layout.html' %}
+
+{% block title %}
+    Influencer Ad Requests
+{% endblock %}
+
+{% block styles %}
+<style>
+    .container {
+        margin-top: 20px;
+    }
+    .ad-request-card {
+        border: 1px solid #ddd;
+        padding: 15px;
+        border-radius: 5px;
+        margin-bottom: 20px;
+        background-color: #fff;
+    }
+    .ad-request-card h2 {
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+    }
+    .ad-request-card p {
+        margin: 0;
+    }
+    .ad-request-card .btn {
+        margin-right: 10px;
+        margin-top: 10px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="display-4 text-center">My Ad Requests</h1>
+    <div id="ad-requests-list">
+        {% if ad_requests %}
+                {% for ad_request in ad_requests %}
+                        <div class="ad-request-card">
+                        <h2>Campaign: {{ ad_request.campaign.name }}</h2>
+                        <p>Sponsor: {{ ad_request.campaign.sponsor.name }}</p>
+                        <p>Messages: {{ ad_request.messages }}</p>
+                        <p>Requirements: {{ ad_request.requirements }}</p>
+                        <p>Payment Amount: &#x20B9; {{ ad_request.payment_amount }}</p>
+                        <p>Status: {{ ad_request.status }}</p>
+                        <form action="{{ url_for('influencer_accept_offer', ad_request_id=ad_request.id) }}" method="POST" style="display:inline;">
+                                <button type="submit" class="btn btn-success">Accept</button>
+                        </form>
+                        <form action="{{ url_for('influencer_reject_offer', ad_request_id=ad_request.id) }}" method="POST" style="display:inline;">
+                                <button type="submit" class="btn btn-danger">Reject</button>
+                        </form>
+                </div>
+                {% endfor %}
+        {% else %}
+            <p class="text-center">You don't have any ad requests at the moment.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

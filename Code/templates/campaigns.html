@@ -1,0 +1,81 @@
+{% extends 'sponsor_layout.html' %}
+
+{% block title %}
+    My Campaigns
+{% endblock %}
+
+{% block styles %}
+<style>
+    .container {
+        margin-top: 20px;
+    }
+    .campaign-card {
+        border: 1px solid #ddd;
+        padding: 20px;
+        border-radius: 5px;
+        margin-bottom: 20px;
+        background-color: #fff;
+    }
+    .campaign-card h2 {
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+    }
+    .campaign-card p {
+        margin: 5px 0;
+    }
+    .actions {
+        display: flex;
+        gap: 10px;
+    }
+    .btn-edit, .btn-delete {
+        color: #fff;
+        padding: 5px 10px;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+    }
+    .btn-edit {
+        background-color: #007bff;
+    }
+    .btn-delete {
+        background-color: #dc3545;
+    }
+    a {
+        text-decoration: none;
+    }
+    .flagged-status {
+        color: red;
+        font-weight: bold;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="display-1">My Campaigns</h1>
+    <a href="{{ url_for('add_campaign') }}" class="btn btn-success mb-4">Add Campaign</a>
+    <div class="campaigns-list">
+        {% for campaign in campaigns %}
+        <div class="campaign-card">
+            <h2>{{ campaign.name }}</h2>
+            {% if campaign.flagged %}
+            <p><strong>Status:</strong> <span class="flagged-status">Flagged</span></p>
+            {% endif %}
+            <p><strong>Category:</strong> {{ campaign.category }}</p>
+            <p><strong>Description:</strong> {{ campaign.description }}</p>
+            <p><strong>Start Date:</strong> {{ campaign.start_date }}</p>
+            <p><strong>End Date:</strong> {{ campaign.end_date }}</p>
+            <p><strong>Budget:</strong> &#x20B9; {{ campaign.budget }}</p>
+            <p><strong>Visibility:</strong> {{ campaign.visibility }}</p>
+            <p><strong>Goals:</strong> {{ campaign.goals }}</p>
+            <div class="actions">
+                <a href="{{ url_for('edit_campaign', campaign_id=campaign.id) }}" class="btn-edit">Edit</a>
+                <form action="{{ url_for('delete_campaign', campaign_id=campaign.id) }}" method="POST" style="display:inline;">
+                    <button type="submit" class="btn-delete">Delete</button>
+                </form>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

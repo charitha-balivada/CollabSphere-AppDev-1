@@ -1,0 +1,80 @@
+{% extends 'influencer_layout.html' %}
+
+{% block title %}
+    Accepted Campaigns
+{% endblock %}
+
+{% block styles %}
+<style>
+    .container {
+        margin-top: 20px;
+    }
+    .campaign-card {
+        border: 1px solid #ddd;
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        background-color: #f9f9f9;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    .campaign-card h2 {
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+        color: #333;
+    }
+    .campaign-card p {
+        margin: 5px 0;
+        color: #666;
+    }
+    .campaign-card .btn {
+        margin-top: 10px;
+        display: inline-block;
+        padding: 10px 20px;
+        font-size: 1rem;
+        border-radius: 5px;
+        text-decoration: none;
+        color: #fff;
+        background-color: #007bff;
+        border: none;
+        cursor: pointer;
+    }
+    .campaign-card .btn:hover {
+        background-color: #0056b3;
+    }
+    .campaign-info {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+    .flagged-status {
+        color: red;
+        font-weight: bold;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="display-4 text-center">Your Accepted Campaigns</h1>
+    
+    <div id="accepted-campaigns-list">
+        {% for campaign, ad_request in campaigns_with_ad_requests %}
+        <div class="campaign-card">
+            <div class="campaign-info">
+                <h2>{{ campaign.name }}</h2>
+                <p class="text-muted">Category: {{ campaign.category }}</p>
+            </div>
+            {% if campaign.flagged %}
+            <p><strong>Status:</strong> <span class="flagged-status">Flagged</span></p>
+            {% endif %}
+            <p><strong>Description:</strong> {{ campaign.description }}</p>
+            <p><strong>Start Date:</strong> {{ campaign.start_date }}</p>
+            <p><strong>End Date:</strong> {{ campaign.end_date }}</p>
+            <p><strong>Payment:</strong> &#x20B9;{{ ad_request.payment_amount }}</p>
+            <p><strong>Goals:</strong> {{ campaign.goals }}</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

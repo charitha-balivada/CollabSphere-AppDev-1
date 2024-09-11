@@ -1,0 +1,126 @@
+{% extends 'admin_layout.html' %}
+
+{% block title %}
+    Users and Campaigns
+{% endblock %}
+
+{% block styles %}
+<style>
+    .container {
+        margin-top: 20px;
+    }
+    .card {
+        border: 1px solid #ddd;
+        padding: 15px;
+        border-radius: 5px;
+        margin-bottom: 20px;
+        background-color: #f9f9f9;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    .card h3 {
+        margin: 0 10px 0 0;
+        font-size: 1.25rem;
+    }
+    .card p {
+        margin: 0 10px 0 0;
+        color: #666;
+    }
+    .card .btn {
+        font-size: 0.9rem;
+    }
+    .filters {
+        margin-bottom: 20px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    .filters label, .filters select, .filters button {
+        margin-right: 10px;
+    }
+    .filters button {
+        font-size: 0.9rem;
+    }
+    .card-content {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .card-content div {
+        display: flex;
+        align-items: center;
+    }
+    .card-content .buttons {
+        display: flex;
+        gap: 10px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="display-4 text-center">Users and Campaigns</h1>
+
+    <div class="filters">
+        <form method="GET" action="{{ url_for('admin_users_and_campaigns') }}">
+            <label for="type_filter">Choose:</label>
+            <select id="type_filter" name="type" class="form-control">
+                <option value="sponsors" {% if type_filter == 'sponsors' %}selected{% endif %}>Sponsors</option>
+                <option value="influencers" {% if type_filter == 'influencers' %}selected{% endif %}>Influencers</option>
+                <option value="campaigns" {% if type_filter == 'campaigns' %}selected{% endif %}>Campaigns</option>
+            </select>
+            <label for="category_filter">Category:</label>
+            <select id="category_filter" name="category" class="form-control">
+                <option value="" {% if selected_category == '' %}selected{% endif %}>All</option>
+                {% for category in categories %}
+                <option value="{{ category }}" {% if selected_category == category %}selected{% endif %}>{{ category }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit" class="btn btn-primary">Filter</button>
+        </form>
+    </div>
+
+    <div class="row">
+        {% for item in items %}
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-content">
+                    {% if type_filter == 'sponsors' %}
+                    <div>
+                        <h3>{{ item.username }}</h3>
+                        <p>{{ item.name }}</p>
+                    </div>
+                    <div class="buttons">
+                        <a href="{{ url_for('admin_view_sponsor', sponsor_id=item.id) }}" class="btn btn-info">View</a>
+                    </div>
+                    {% elif type_filter == 'influencers' %}
+                    <div>
+                        <h3>{{ item.username }}</h3>
+                        <p>Platform: {{ item.social_media_platform }}</p>
+                        <p>Category: {{ item.category }}</p>
+                        <p>Reach: {{ item.reach }}</p>
+                    </div>
+                    <div class="buttons">
+                        <a href="{{ url_for('admin_view_influencer', influencer_id=item.id) }}" class="btn btn-info">View</a>
+                    </div>
+                    {% elif type_filter == 'campaigns' %}
+                        <div>
+                            <h3>{{ item.name }}</h3>
+                            <p>Category: {{ item.category }}</p>
+                            <p>Sponsor: {{ item.sponsor.name }}</p>
+                            <p>Flag Status: {{ item.flagged }}</p>
+                        </div>
+                        <div class="buttons">
+                            <a href="{{ url_for('admin_view_campaign', campaign_id=item.id) }}" class="btn btn-info">View</a>
+                            <form action="{{ url_for('admin_flag', campaign_id=item.id) }}" method="POST" style="display:inline;">
+                                <button type="submit" class="btn btn-warning">Flag</button>
+                            </form>
+                        </div>
+                   {% endif %}
+
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

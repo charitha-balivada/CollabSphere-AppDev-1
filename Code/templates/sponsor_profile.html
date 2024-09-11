@@ -1,0 +1,77 @@
+{% extends 'sponsor_layout.html' %}
+
+{% block title %}
+    Profile Page
+{% endblock %}
+
+{% block styles %}
+    <style>
+        .form-header{
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            text-align:center;
+        }
+        p{
+            color: rgb(13, 11, 11);
+            font-family: poppins,sans-serif;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="form-header">
+        <h2 class="display-1">
+            <p>
+                Hello @{{sponsor.username}}
+            </p>
+        </h2>
+    </div>
+
+    <form action="" method="post" class="form">
+        <div class="form-group mb-3">
+            <label for="username" class="form-label">Username</label>
+            <input type="text" name="username" id="username" value= "{{sponsor.username}}" class="form-control" >
+        </div>
+        <div class="form-group mb-3">
+            <label for="cpassword" class="form-label">Current Password</label>
+            <input type="text" name="cpassword" id="cpassword" class="form-control" >
+        </div>
+        <div class="form-group mb-3">
+            <label for="password" class="form-label">New Password</label>
+            <input type="text" name="password" id="password" class="form-control" >
+        </div>
+        <div class="form-group mb-3">
+            <label for="company_or_individual" class="form-label">Company/Individual</label>
+            <input type="text" name="company_or_individual" id="company_or_individual" value= "{{sponsor.company_or_individual}}" class="form-control" >
+        </div>
+        <div class="form-group mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" name="name" id="name" value= "{{sponsor.name}}" class="form-control" >
+        </div>
+        <div class="form-group mb-3">
+            <label for="email" class="form-label">Email(Non-editable)</label>
+            <input type="text" name="email" id="email" value= "{{sponsor.email}}" class="form-control" readonly>
+        </div>
+        <div class="form-group mb-3">
+            <label for="name" class="form-label">Phone Number(Non-editable)</label>
+            <input type="text" name="phone" id="phone" value= "{{sponsor.phone}}" class="form-control" readonly>
+        </div>
+        <div class="form-group mb-3">
+            <label for="industry" class="form-label">Industry</label>
+            <input type="text" name="industry" id="industry" value= "{{sponsor.industry}}" class="form-control" >
+        </div>
+        <div class="form-group mb-3">
+            <label for="niche" class="form-label">Niche</label>
+            <input type="text" name="niche" id="niche" value= "{{sponsor.niche}}" class="form-control" >
+        </div>
+        <div class="form-group mb-3">
+            <label for="business_link" class="form-label">Website link/ Other Business links</label>
+            <input type="url" name="business_link" id="business_link" value= "{{sponsor.business_link}}" class="form-control">
+        </div>
+        <div class="form-group mb-3">
+            <button class= "btn btn-primary" type="submit">Update</button>
+        </div>
+    </form>
+
+{% endblock %}

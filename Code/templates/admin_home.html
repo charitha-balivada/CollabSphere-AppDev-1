@@ -1,0 +1,77 @@
+{% extends 'admin_layout.html' %}
+
+{% block title %}
+    Ongoing Campaigns
+{% endblock %}
+
+{% block styles %}
+<style>
+    .container {
+        margin-top: 20px;
+    }
+    .campaign-card {
+        border: 1px solid #ddd;
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        background-color: #f9f9f9;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    .campaign-card h2 {
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+        color: #333;
+    }
+    .campaign-card p {
+        margin: 5px 0;
+        color: #666;
+    }
+    .campaign-card .btn {
+        margin-top: 10px;
+        display: inline-block;
+        padding: 10px 20px;
+        font-size: 1rem;
+        border-radius: 5px;
+        text-decoration: none;
+        color: #fff;
+        background-color: #007bff;
+        border: none;
+        cursor: pointer;
+    }
+    .campaign-card .btn:hover {
+        background-color: #0056b3;
+    }
+    .campaign-info {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="display-4 text-center">Accepted Campaigns</h1>
+    
+    <div id="ongoing-campaigns-list">
+        {% for item in accepted_campaigns %}
+        <div class="campaign-card">
+            <div class="campaign-info">
+                <h2>{{ item.campaign.name }}</h2>
+                <p class="text-muted">Sponsor: {{ item.sponsor.username }}</p>
+                <p class="text-muted">Influencer: {{ item.influencer.username }}</p>
+                <p class="card-text">Status: {{ 'Flagged' if item.campaign.flagged else 'Not Flagged' }}</p>
+            </div>
+            <p><strong>Description:</strong> {{ item.campaign.description }}</p>
+            <p><strong>Start Date:</strong> {{ item.campaign.start_date.strftime('%Y-%m-%d') }}</p>
+            <p><strong>End Date:</strong> {{ item.campaign.end_date.strftime('%Y-%m-%d') }}</p>
+            <a href="{{ url_for('admin_view_campaign', campaign_id=item.campaign.id) }}" class="btn btn-primary">View Campaign</a>
+            <form action="{{ url_for('admin_flag', campaign_id=item.campaign.id) }}" method="post" style="display:inline;">
+                <button type="submit" class="btn btn-danger">Flag</button>
+            </form>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
